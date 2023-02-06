@@ -13,9 +13,13 @@
 
 const coins = [
     { id: 'USD', name: 'US Dollar'},
-    { id: 'BRL', name: 'Brazilian Real'},
     { id: 'COP', name: 'Colombian Peso'},
-    { id: 'EUR', name: 'Euro'}
+    { id: 'BRL', name: 'Brazilian Real'},
+    { id: 'ARS', name: 'Argentinian peso'},
+    { id: 'EUR', name: 'Euro'},
+    { id: 'GBP', name: 'British Pound'},
+    { id: 'KWD', name: 'Kuwait Dinar'},
+    { id: 'JPY', name: 'Japanese Yen'},
 ]
 
 export {
