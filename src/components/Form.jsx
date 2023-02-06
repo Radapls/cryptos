@@ -12,9 +12,69 @@
  */
 
 import styled from '@emotion/styled'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import request from '../constants/api'
 import { coins } from '../data/coins'
 import useSelectCoin from '../hooks/useSelectCoin'
+import { Error } from './Error'
+
+export const Form = ({setCoins}) => {
+
+    const [cryptos, setCryptos] = useState([])
+    const [error, setError] = useState(false)
+
+    const [coin, SelectCoin] = useSelectCoin('Select your coin', coins)
+    const [cryptoCoin, SelectCryptoCoin] = useSelectCoin('Select your crypto', cryptos)
+
+    useEffect(() => {
+
+const consultApi = async () => {
+
+    const url = request.cryptoList
+    const response = await fetch(url)
+    const result = await response.json()
+
+    const arrayCrypto = result.Data.map( crypto => {
+        const object = {
+            id: crypto.CoinInfo.Name,
+            name: crypto.CoinInfo.FullName
+        }
+        return object
+    })
+
+    setCryptos(arrayCrypto)
+
+    }
+    consultApi()
+}, [])
+
+const handleSubmit = e => {
+        e.preventDefault()
+
+    if([coin, cryptoCoin].includes('')) {
+        setError(true)
+
+        return;
+    }
+    setError(false)
+    setCoins({coin, cryptoCoin})
+}
+
+  return (
+    <>
+        {error && <Error>All the fields are mandatory</Error>}
+        <form onSubmit={handleSubmit}>
+
+            <SelectCoin/>
+            <SelectCryptoCoin/>
+
+            <InputSubmit
+                type="submit"
+                value="Quote" />
+        </form>
+    </>
+  )
+}
 
 const InputSubmit = styled.input`
     background-color: #9497ff;
@@ -34,22 +94,3 @@ const InputSubmit = styled.input`
         cursor: pointer;
     }
 `
-
-export const Form = () => {
-
-
-    const [coin, SelectCoin] = useSelectCoin('Select your coin', coins)
-
-  return (
-    <form>
-
-        <SelectCoin/>
-
-        {coin}
-
-        <InputSubmit
-            type="submit"
-            value="Quote" />
-    </form>
-  )
-}
