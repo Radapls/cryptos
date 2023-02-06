@@ -15,8 +15,9 @@
 function App() {
 
   return (
-    <div >
-        Desde el app
+    <div>
+        <div></div>
+        <img src="src/img/cryptos.png" alt="Crypto banner" draggable="false" width="600px"/>
     </div>
   )
 }
